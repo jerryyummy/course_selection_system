@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> 取消开课 </title>
+  <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+  <style type="text/css">
+    .form-control-inline {
+      width:200px;
+      height:30px;
+      display:inline;
+    }
+    body {
+        background: url('../../static/image/index.jpg') no-repeat fixed center left / cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header" style="min-height: 70px;">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" style="padding: 25px 50px">家里蹲大学网络选课系统</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/index" style="padding: 25px 15px"> 首页 </a></li>
+            <li><a href="/logout_view" class="navbar-link" style="padding: 25px 15px; color: red">安全退出</a></li>
+          </ul>
+          <p class="navbar-text navbar-right" style="padding: 10px 150px">
+            <span style="color: blue; ">2020-2021学年春季学期</span> |
+            <span style="color: black; "> 欢迎 {{request.user.username}}  @SCU</span> |
+          </p>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" style="background:#b2d4ef; min-height:800px; padding:1px 5px 0px 2px;">
+        <br>
+        <div class="list-group">
+            <label href="#" class="list-group-item list-group-item-action">
+                <span style="color: #385090; padding:30px; font-size: medium; "> 教师信息 </span>
+            </label>
+          <label class="list-group-item list-group-item-action list-group-item-primary">工号：{{teacher_id}}</label>
+          <label class="list-group-item list-group-item-action list-group-item-primary">姓名：{{name}}</label>
+          <a href="/index/info/" class="list-group-item list-group-item-action list-group-item-primary">点击查看详细信息</a>
+        </div>
+        <br>
+        <div class="list-group">
+            <label href="#" class="list-group-item list-group-item-action">
+                <span style="color: #385090; padding:30px; font-size: medium; "> 常用功能 </span>
+            </label>
+          <a href="/index/setup_course/" class="list-group-item list-group-item-action list-group-item-info" style="color: #385090; padding:30px;">开设课程</a>
+          <a href="/index/cancel_course/" class="list-group-item list-group-item-action list-group-item-info" style="color: #385090; padding:30px;">取消开课</a>
+          <a href="/index/publish_score/" class="list-group-item list-group-item-action list-group-item-info" style="color: #385090; padding:30px;">发布成绩</a>
+        </div>
+        <br>
+      </div>
+
+      <div class="col-sm-3 col-md-6" style="padding: 10px 30px;">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">取消课程</li>
+          </ol>
+        </nav>
+        <br>
+          <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">注意！</h1>
+            <p class="lead">确认是否取消课程</p>
+          </div>
+          </div>
+      <br>
+        <form method="POST" action="/index/cancel_course/">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="label" style="color: #385090; padding:30px; font-size: medium;">课程号：</label>
+            <input type="text" name=class_id class="form-control form-control-inline">
+              <br><br>
+          </div>
+
+          <br>
+          <input type="submit" value="提交" class="btn-lg btn-success">
+          <br>
+        </form>
+        <br><br>
+          <font color="red"><b>{{result}}</b></font>
+      </div>
+
+      <div class="col-sm-3 col-md-6" style="padding: 10px 30px;">
+          <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">已开课程</li>
+          </ol>
+        </nav>
+        <table class="table">
+          <thead>
+            <tr>
+                <th> 课程号 </th>
+                <th> 课程名称 </th>
+                <th> 上课时间 </th>
+                <th> 学分 </th>
+                <th> 选课人数 </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for course in classtable %}
+            <tr>
+                <td> {{course.class_id}} </td>
+                <td> {{course.class_name}} </td>
+                <td> {{course.class_time}} </td>
+                <td> {{course.class_credit}} </td>
+                <td>{{ course.number_of_people }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+</body>
+</html>

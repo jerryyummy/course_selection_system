@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> 成绩查询 </title>
+  <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+  <style type="text/css">
+      body {
+        background: url('../../static/image/index.jpg') no-repeat fixed center left / cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header" style="min-height: 70px;">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" style="padding: 25px 50px">家里蹲大学网络选课系统</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/index" style="padding: 25px 15px"> 首页 </a></li>
+            <li><a href="/logout_view" class="navbar-link" style="padding: 25px 15px; color: red">安全退出</a></li>
+          </ul>
+          <p class="navbar-text navbar-right" style="padding: 10px 150px">
+            <span style="color: blue; ">2020-2021学年春季学期</span> |
+            <span style="color: black; "> 欢迎 {{request.user.username}}  @SCU</span> |
+          </p>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" style="background:#b2d4ef; min-height:800px; padding:1px 5px 0px 2px;">
+        <br>
+
+        <!-- 学生端 -->
+        <div class="list-group">
+            <label href="#" class="list-group-item list-group-item-action">
+                <span style="color: #385090; padding:30px; font-size: medium; "> 学生信息 </span>
+            </label>
+          <label class="list-group-item list-group-item-action list-group-item-primary">学号：{{student_id}}</label>
+          <label class="list-group-item list-group-item-action list-group-item-primary">姓名：{{name}}</label>
+          <a href="/index/info/" class="list-group-item list-group-item-action list-group-item-primary">点击查看详细信息</a>
+        </div>
+        <br>
+        <div class="list-group">
+            <label href="#" class="list-group-item list-group-item-action">
+                <span style="color: #385090; padding:30px; font-size: medium; "> 常用功能 </span>
+            </label>
+          <a href="/index/select_course/" class="list-group-item list-group-item-action list-group-item-info">选课</a>
+          <a href="/index/drop_course/" class="list-group-item list-group-item-action list-group-item-info">退课</a>
+        </div>
+        <br>
+            <div class="list-group">
+            <label href="#" class="list-group-item list-group-item-action">
+                <span style="color: #385090; padding:30px; font-size: medium; "> 综合查询 </span>
+            </label>
+          <a href="/index/query_score/" class="list-group-item list-group-item-action list-group-item-info">成绩查询</a>
+          <a href="/index/query_course/" class="list-group-item list-group-item-action list-group-item-info">课程查询</a>
+        </div>
+        <br>
+
+      </div>
+      <div class="col-sm-3 col-md-6" style="padding: 10px 30px;">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item ">成绩查询</li>
+            <li class="breadcrumb-item active" aria-current="page">本学期成绩</li>
+          </ol>
+        </nav>
+      <br>
+          <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">注意！</h1>
+            <p class="lead">本学期成绩仅在本学期时间可见！</p>
+          </div>
+          </div>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+                <th> 课程号 </th>
+                <th> 课程名称 </th>
+                <th> 总评成绩 </th>
+                <!--<th> 选课 </th>-->
+            </tr>
+          </thead>
+          <tbody>
+            {% for course in classtable %}
+            <tr>
+                  <td> {{course.class_id}} </td>
+                  <td> {{course.class_name}} </td>
+                  <td>
+                    {% if course.final_score %}
+                    {{course.final_score}}
+                    {% else %}
+                    尚未发布
+                    {% endif %}
+                  </td>
+                <!--<td><button type="submit"> 选课 </button></td>-->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+</body>
+</html>

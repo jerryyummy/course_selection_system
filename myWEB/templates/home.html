@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>家里蹲大学统一身份认证</title>
+    <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <style type="text/css">
+    body {
+        background: url('../../static/image/home.jpg') no-repeat fixed center left / cover;
+    }
+  </style>
+</head>
+<body>
+    <div style="color:white; background:linear-gradient(#5bc0de,#fdfdfd); padding:10px; text-align: center;">
+        <span style="font-size: 44px; ">家里蹲大学统一身份认证</span>
+    </div>
+    <br><br><br><br>
+
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4" style="background: #FFFFFF; opacity:0.75; border-radius: 25px">
+            {% if request.user.username %}
+            <center><h3> 欢迎 {{ request.user.username }} ！</h3></center>
+            <br><br><br>
+            <center><a href="/logout_view" style="color: red">安全退出</a></center>
+            <br><br><br><br>
+
+            {% else %}
+            <div style="text-align: center;"><h2><span style="color: #53e0a0; "> 登录/Login </span></h2></div>
+            <br>
+
+            <form role="form" action="/login_view/" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id"><h3>学号或工号/ID Number</h3></label>
+                    <input name="username" type="text" class="form-control" id="id" placeholder="" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password"><h3>密码/Password</h3></label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="" value="">
+                </div>
+                <div class="form-group" style="color: red; text-align: center" >{{ msg }}</div>
+                <br>
+                <div style="text-align: center;"><button class="btn-lg btn-primary" type="submit">登录</button></div>
+            </form>
+            <br>
+            {% endif %}
+        </div>
+    </div>
+{#    <nav class="navbar navbar-inverse navbar-fixed-bottom">#}
+{#        <center style="color:white; background:#2468c2; opacity: 0.7"><font size="4" color=":#255085">.</font></center>#}
+{#        <center style="color:white; background:#2468c2; opacity: 0.7"><font size="4">地址：四川省成都市双流区    邮编：666666    信息服务电话：110</font></center>#}
+{#        <center style="color:white; background:#2468c2; opacity: 0.7"><font size="4" color=":#255085">.</font></center>#}
+{#    </nav>#}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+</body>
+</html>
